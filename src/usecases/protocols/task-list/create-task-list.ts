@@ -7,6 +7,7 @@ export interface CreateTaskList {
 export namespace CreateTaskList {
   export type Params = {
     name: string;
+    due_date: Date;
   };
 
   export type Result = Promise<TaskList>;

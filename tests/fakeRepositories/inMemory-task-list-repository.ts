@@ -38,6 +38,17 @@ export class InMemoryTaskListRepository implements TaskRepository {
 
     return data;
   }
+
+  public async delete(id: number): Promise<boolean> {
+    const findIndex = this.taskList.findIndex((taskList) => taskList.id === id);
+
+    if (findIndex > -1) {
+      this.taskList.splice(findIndex, 1);
+      return true;
+    }
+
+    return false;
+  }
 }
 
 export default InMemoryTaskListRepository;

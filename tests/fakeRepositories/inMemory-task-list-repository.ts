@@ -8,6 +8,13 @@ export class InMemoryTaskListRepository implements TaskListRepository {
   constructor() {
     this.taskList = [];
   }
+
+  public async list(): Promise<TaskList[]> {
+    if (this.taskList.length > 0) {
+      return this.taskList;
+    }
+    return undefined;
+  }
   public async create(data: CreateTaskList.Params): Promise<TaskList> {
     const newItem: TaskList = {
       id: this.taskList.length + 1,

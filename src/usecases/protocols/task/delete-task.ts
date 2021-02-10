@@ -1,7 +1,7 @@
 export interface DeleteTask {
-  delete: (id: number) => Promise<DeleteTask.Result>;
+  delete: (id: number) => DeleteTask.Result;
 }
 
 export namespace DeleteTask {
-  export type Result = boolean;
+  export type Result = Promise<boolean>;
 }

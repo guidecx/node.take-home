@@ -8,4 +8,8 @@ export interface TaskRepository {
   create: (data: CreateTask.Params) => Promise<Task>;
   save: (data: Task) => Promise<Task>;
   delete: (id: number) => Promise<boolean>;
+  updateNextDependency: (
+    currentDependency: number,
+    currentId: number,
+  ) => Promise<boolean>;
 }

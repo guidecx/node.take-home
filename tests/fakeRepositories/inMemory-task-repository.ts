@@ -86,6 +86,29 @@ export class InMemoryTaskRepository implements TaskRepository {
 
     return false;
   }
+
+  public async updateNextDependency(
+    currentDependency: number,
+    currentId: number,
+  ): Promise<boolean> {
+    const findTaskIndex = this.task.findIndex((task) => task.id === currentId);
+    const taskDependsCurrentIndex = this.task.findIndex(
+      (task) => task.dependency_id === currentId,
+    );
+
+    this.task[findTaskIndex].dependency_id = null;
+
+    if (taskDependsCurrentIndex > -1) {
+      this.task[taskDependsCurrentIndex].dependency_id = currentDependency;
+
+      if (this.task[findTaskIndex].status === 'in_progress') {
+        this.task[taskDependsCurrentIndex].status = 'in_progress';
+        this.task[taskDependsCurrentIndex].started_at = new Date();
+      }
+    }
+
+    return true;
+  }
 }
 
 export default InMemoryTaskRepository;

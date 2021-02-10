@@ -44,7 +44,7 @@ describe('Create a new Task', () => {
     expect(repositoryCreate).toHaveBeenCalledWith(request);
   });
 
-  test('Should return an TaskList on success', async () => {
+  test('Should return an Task on success', async () => {
     const { sut, taskListRepository } = makeSut();
 
     const requestTaskList = {

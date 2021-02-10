@@ -56,6 +56,16 @@ export class InMemoryTaskListRepository implements TaskListRepository {
 
     return false;
   }
+
+  public async updateForecastDate(id: number, date: Date): Promise<boolean> {
+    const findTaskList = this.taskList.find((taskList) => taskList.id === id);
+    if (findTaskList) {
+      findTaskList.forecasted_completion_date = date;
+      return true;
+    }
+
+    return false;
+  }
 }
 
 export default InMemoryTaskListRepository;

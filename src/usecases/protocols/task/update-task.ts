@@ -1,14 +1,15 @@
 import { Task } from '~/models/task';
 
 export interface UpdateTask {
-  update: (task: UpdateTask.Params) => Promise<UpdateTask.Result>;
+  update: (task: UpdateTask.Params) => UpdateTask.Result;
 }
 
 export namespace UpdateTask {
   export type Params = {
     id: number;
     name: string;
+    duration: number;
   };
 
-  export type Result = Task;
+  export type Result = Promise<Task>;
 }

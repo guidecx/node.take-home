@@ -1,3 +1,4 @@
+import { addDays } from 'date-fns';
 import { Task } from '~/models/task';
 import { TaskRepository } from '~/repositories/protocols/task-repository';
 import { CreateTask } from '~/usecases/protocols';
@@ -54,6 +55,33 @@ export class InMemoryTaskRepository implements TaskRepository {
     if (findIndex > -1) {
       this.task.splice(findIndex, 1);
       return true;
+    }
+
+    return false;
+  }
+
+  public async sumNewForecast(id: number): Promise<Date | boolean> {
+    let duration = 0;
+    let dateStarted = null;
+    for (let i = 0; i < this.task.length; i++) {
+      if (
+        this.task[i].task_list_id === id &&
+        (this.task[i].status === 'in_progress' ||
+          this.task[i].status === 'not_started')
+      ) {
+        duration += this.task[i].duration;
+      }
+
+      if (
+        this.task[i].task_list_id === id &&
+        this.task[i].status === 'in_progress'
+      ) {
+        dateStarted = this.task[i].started_at;
+      }
+    }
+
+    if (dateStarted) {
+      return addDays(dateStarted, duration);
     }
 
     return false;

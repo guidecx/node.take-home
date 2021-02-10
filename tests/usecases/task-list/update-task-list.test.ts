@@ -1,8 +1,8 @@
 import faker from 'faker';
 import { TaskListRepository } from '~/repositories/protocols/task-list-repository';
-import { InMemoryTaskListRepository } from '../fakeRepositories/inMemory-task-list-repository';
+import { InMemoryTaskListRepository } from '~/tests/fakeRepositories/inMemory-task-list-repository';
 import { ServiceUpdateTaskList } from '~/usecases/implementations/task-list/update-task-list';
-import { UpdateTaskList } from './protocols';
+import { UpdateTaskList } from '~/usecases/protocols';
 import AppError from '~/util/errors/AppError';
 
 const makeSut = (): SutTypes => {

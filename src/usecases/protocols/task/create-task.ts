@@ -1,7 +1,7 @@
 import { Task } from '~/models/task';
 
 export interface CreateTask {
-  create: (task: CreateTask.Params) => Promise<CreateTask.Result>;
+  create: (task: CreateTask.Params) => CreateTask.Result;
 }
 
 export namespace CreateTask {
@@ -9,7 +9,8 @@ export namespace CreateTask {
     name: string;
     duration: number;
     task_list_id: number;
+    dependency_id?: number;
   };
 
-  export type Result = Task;
+  export type Result = Promise<Task>;
 }

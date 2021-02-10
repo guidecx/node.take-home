@@ -1,8 +1,8 @@
 import { TaskList } from '~/models/task-list';
-import { TaskRepository } from '~/repositories/protocols/task-list-repository';
+import { TaskListRepository } from '~/repositories/protocols/task-list-repository';
 import { CreateTaskList } from '~/usecases/protocols';
 
-export class InMemoryTaskListRepository implements TaskRepository {
+export class InMemoryTaskListRepository implements TaskListRepository {
   private taskList: TaskList[];
 
   constructor() {

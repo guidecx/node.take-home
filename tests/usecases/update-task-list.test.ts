@@ -1,28 +1,28 @@
 import faker from 'faker';
-import { TaskRepository } from '~/repositories/protocols/task-list-repository';
+import { TaskListRepository } from '~/repositories/protocols/task-list-repository';
 import { InMemoryTaskListRepository } from '../fakeRepositories/inMemory-task-list-repository';
 import { ServiceUpdateTaskList } from '~/usecases/implementations/task-list/update-task-list';
 import { UpdateTaskList } from './protocols';
 import AppError from '~/util/errors/AppError';
 
 const makeSut = (): SutTypes => {
-  const taskRepository = new InMemoryTaskListRepository();
-  const sut = new ServiceUpdateTaskList(taskRepository);
+  const taskListRepository = new InMemoryTaskListRepository();
+  const sut = new ServiceUpdateTaskList(taskListRepository);
   return {
     sut,
-    taskRepository,
+    taskListRepository,
   };
 };
 
 type SutTypes = {
   sut: UpdateTaskList;
-  taskRepository: TaskRepository;
+  taskListRepository: TaskListRepository;
 };
 
 describe('Update a TaskList', () => {
   test('Should call TaskList findById with correct params', async () => {
-    const { sut, taskRepository } = makeSut();
-    const fakeTaskList = await taskRepository.create({
+    const { sut, taskListRepository } = makeSut();
+    const fakeTaskList = await taskListRepository.create({
       name: faker.vehicle.model(),
       due_date: faker.date.future(1),
     });
@@ -52,8 +52,8 @@ describe('Update a TaskList', () => {
   });
 
   test('Should return an TaskList on success', async () => {
-    const { sut, taskRepository } = makeSut();
-    const fakeTaskList = await taskRepository.create({
+    const { sut, taskListRepository } = makeSut();
+    const fakeTaskList = await taskListRepository.create({
       name: faker.vehicle.model(),
       due_date: faker.date.future(1),
     });

@@ -1,9 +1,9 @@
 import { TaskList } from '~/models/task-list';
 
 export interface ListTaskList {
-  list: () => Promise<ListTaskList.Result>;
+  list: () => ListTaskList.Result;
 }
 
 export namespace ListTaskList {
-  export type Result = TaskList[];
+  export type Result = Promise<TaskList[] | undefined>;
 }

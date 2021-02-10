@@ -1,14 +1,12 @@
-export interface UpdateTaskStatus {
-  changeStatus: (
-    params: UpdateTaskStatus.Params,
-  ) => Promise<UpdateTaskStatus.Result>;
+export interface ChangeTaskStatus {
+  changeStatus: (params: ChangeTaskStatus.Params) => ChangeTaskStatus.Result;
 }
 
-export namespace UpdateTaskStatus {
+export namespace ChangeTaskStatus {
   export type Params = {
     id: number;
     status: string;
   };
 
-  export type Result = boolean;
+  export type Result = Promise<boolean>;
 }

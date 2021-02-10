@@ -109,6 +109,15 @@ export class InMemoryTaskRepository implements TaskRepository {
 
     return true;
   }
+  public async findByDependencyId(
+    dependencyId: number,
+  ): Promise<Task | undefined> {
+    const findTask = this.task.find(
+      (task) => task.dependency_id === dependencyId,
+    );
+
+    return findTask;
+  }
 }
 
 export default InMemoryTaskRepository;

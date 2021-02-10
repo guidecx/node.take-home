@@ -12,4 +12,5 @@ export interface TaskRepository {
     currentDependency: number,
     currentId: number,
   ) => Promise<boolean>;
+  findByDependencyId: (dependencyId: number) => Promise<Task | undefined>;
 }

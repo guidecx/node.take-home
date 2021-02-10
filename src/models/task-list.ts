@@ -1,4 +1,3 @@
-import client from '~/db/client';
 import { Task } from './task';
 
 export interface TaskList {
@@ -11,4 +10,3 @@ export interface TaskList {
   created_at: Date;
   updated_at: Date;
 }
-export default client<TaskList>('task_lists');

@@ -2,9 +2,9 @@ import { TaskListRepository } from '~/repositories/protocols/task-list-repositor
 import { CreateTaskList } from '~/usecases/protocols';
 
 export class ServiceCreateTaskList implements CreateTaskList {
-  constructor(private taskListRepository: TaskListRepository) {}
+  constructor(private taskRepository: TaskListRepository) {}
   async create(taskList: CreateTaskList.Params): CreateTaskList.Result {
-    const result = await this.taskListRepository.create(taskList);
+    const result = await this.taskRepository.create(taskList);
     return result;
   }
 }

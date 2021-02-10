@@ -1,6 +1,9 @@
 import 'module-alias/register';
+import 'reflect-metadata';
 
 import errorHandler from 'errorhandler';
+
+import '~/db/typeorm';
 
 import app from './app';
 

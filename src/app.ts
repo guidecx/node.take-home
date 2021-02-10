@@ -1,11 +1,11 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express from 'express';
 import compression from 'compression';
 import lusca from 'lusca';
 
 import * as settings from './config/settings';
 import { health, home } from '~/controllers/root';
-import * as taskList from '~/controllers/task-list';
-import AppError from './util/errors/AppError';
+import * as taskListController from '~/controllers/task-list';
+import * as taskController from '~/controllers/task';
 
 const app = express();
 app.set('port', settings.port);
@@ -19,20 +19,15 @@ app.use(express.json());
 app.get('/', home);
 app.get('/health', health);
 
-app.get('/api/task-lists', taskList.index);
+app.get('/api/task-lists', taskListController.index);
+app.post('/api/task-lists', taskListController.store);
+app.put('/api/task-lists/:taskListId', taskListController.update);
+app.delete('/api/task-lists/:taskListId', taskListController.remove);
 
-app.use(function (err: Error, req: Request, res: Response, next: NextFunction) {
-  if (err instanceof AppError) {
-    return res
-      .status(err.statusCode)
-      .json({ status: 'error', message: err.message });
-  }
+app.get('/api/tasks', taskController.index);
+app.post('/api/tasks', taskController.store);
+app.put('/api/tasks/:taskListId', taskController.update);
+app.delete('/api/tasks/:taskListId', taskController.remove);
 
-  console.error(err);
-
-  return res
-    .status(500)
-    .json({ status: 'error', message: 'Internal server error' });
-});
-
+app.put('/api/task/changeStatus/:taskListId', taskController.changeStatus);
 export default app;

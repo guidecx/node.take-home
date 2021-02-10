@@ -1,0 +1,42 @@
+import faker from 'faker';
+import { TaskListRepository } from '~/repositories/protocols/task-list-repository';
+import { InMemoryTaskListRepository } from '../fakeRepositories/inMemory-task-list-repository';
+import { ServiceListTaskList } from '~/usecases/implementations/task-list/list-task-list';
+import { ListTaskList } from './protocols';
+import AppError from '~/util/errors/AppError';
+
+const makeSut = (): SutTypes => {
+  const taskListRepository = new InMemoryTaskListRepository();
+  const sut = new ServiceListTaskList(taskListRepository);
+  return {
+    sut,
+    taskListRepository,
+  };
+};
+
+type SutTypes = {
+  sut: ListTaskList;
+  taskListRepository: TaskListRepository;
+};
+
+describe('List all TaskLists', () => {
+  test('Should return undefined if do not have a Task List', async () => {
+    const { sut } = makeSut();
+
+    const taskLists = await sut.list();
+
+    expect(taskLists).toBeFalsy();
+  });
+
+  test('Should return an array of TaskLists on success', async () => {
+    const { sut, taskListRepository } = makeSut();
+    const fakeTaskList = await taskListRepository.create({
+      name: faker.vehicle.model(),
+      due_date: faker.date.future(1),
+    });
+
+    const taskList = await sut.list();
+
+    expect(taskList[0]).toBe(fakeTaskList);
+  });
+});

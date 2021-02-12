@@ -1,13 +1,14 @@
-import { TaskListRepository } from '~/repositories/protocols/task-list-repository';
-import { TaskRepository } from '~/repositories/protocols/task-repository';
-import { UpdateTask } from '~/usecases/protocols';
-import AppError from '~/util/errors/AppError';
+import { TaskListRepository } from '@/repositories/protocols/task-list-repository';
+import { TaskRepository } from '@/repositories/protocols/task-repository';
+import { UpdateTask } from '@/usecases/protocols';
+import AppError from '@/util/errors/AppError';
 
 export class ServiceUpdateTask implements UpdateTask {
   constructor(
     private taskRepository: TaskRepository,
     private taskListRepository: TaskListRepository,
   ) {}
+
   async update(params: UpdateTask.Params): UpdateTask.Result {
     const task = await this.taskRepository.findById(params.id);
     if (!task) {
@@ -24,10 +25,6 @@ export class ServiceUpdateTask implements UpdateTask {
     task.duration = params.duration;
 
     const result = await this.taskRepository.save(task);
-
-    // if durantion change calc forecasted end date
-    console.log('taskDuration', task.duration);
-    console.log('paramDuration', params.duration);
 
     if (oldDuration !== params.duration) {
       const forecastDays = await this.taskRepository.sumNewForecast(

@@ -1,8 +1,8 @@
-import { Task } from '~/models/task';
+import { TaskModel } from '@/models/task';
 
 export interface ListTask {
   list: () => ListTask.Result;
 }
 export namespace ListTask {
-  export type Result = Promise<Task[] | undefined>;
+  export type Result = Promise<TaskModel[] | undefined>;
 }

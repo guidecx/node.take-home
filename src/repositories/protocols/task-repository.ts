@@ -1,16 +1,16 @@
-import { Task } from '~/models/task';
-import { CreateTask } from '~/usecases/protocols';
+import { TaskModel } from '@/models/task';
+import { CreateTask } from '@/usecases/protocols';
 
 export interface TaskRepository {
-  findById: (id: number) => Promise<Task | undefined>;
+  findById: (id: number) => Promise<TaskModel | undefined>;
   sumNewForecast: (id: number) => Promise<Date | boolean>;
-  list: () => Promise<Task[] | undefined>;
-  create: (data: CreateTask.Params) => Promise<Task>;
-  save: (data: Task) => Promise<Task>;
+  list: () => Promise<TaskModel[] | undefined>;
+  create: (data: CreateTask.Params) => Promise<TaskModel>;
+  save: (data: TaskModel) => Promise<TaskModel>;
   delete: (id: number) => Promise<boolean>;
   updateNextDependency: (
-    currentDependency: number,
+    currentDependency: number | null | undefined,
     currentId: number,
   ) => Promise<boolean>;
-  findByDependencyId: (dependencyId: number) => Promise<Task | undefined>;
+  findByDependencyId: (dependencyId: number) => Promise<TaskModel | undefined>;
 }

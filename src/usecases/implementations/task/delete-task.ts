@@ -1,13 +1,14 @@
-import { TaskListRepository } from '~/repositories/protocols/task-list-repository';
-import { TaskRepository } from '~/repositories/protocols/task-repository';
-import { DeleteTask } from '~/usecases/protocols';
-import AppError from '~/util/errors/AppError';
+import { TaskListRepository } from '@/repositories/protocols/task-list-repository';
+import { TaskRepository } from '@/repositories/protocols/task-repository';
+import { DeleteTask } from '@/usecases/protocols';
+import AppError from '@/util/errors/AppError';
 
 export class ServiceDeleteTask implements DeleteTask {
   constructor(
     private taskRepository: TaskRepository,
     private taskListRepository: TaskListRepository,
   ) {}
+
   async delete(id: number): DeleteTask.Result {
     const task = await this.taskRepository.findById(id);
     if (!task) {

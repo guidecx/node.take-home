@@ -1,9 +1,10 @@
-import { TaskListRepository } from '~/repositories/protocols/task-list-repository';
-import { UpdateTaskList } from '~/usecases/protocols';
-import AppError from '~/util/errors/AppError';
+import { TaskListRepository } from '@/repositories/protocols/task-list-repository';
+import { UpdateTaskList } from '@/usecases/protocols';
+import AppError from '@/util/errors/AppError';
 
 export class ServiceUpdateTaskList implements UpdateTaskList {
   constructor(private taskListRepository: TaskListRepository) {}
+
   async update(taskList: UpdateTaskList.Params): UpdateTaskList.Result {
     const task = await this.taskListRepository.findById(taskList.id);
     if (!task) {

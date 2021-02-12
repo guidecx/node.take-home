@@ -1,0 +1,11 @@
+{
+  "type": "postgres",
+  "host": "postgres-guidecx",
+  "port": 5432,
+  "username": "postgres",
+  "password": "",
+  "database": "tasksdb",
+  "synchronize": true,
+  "logging": true,
+  "entities": ["dist/repositories/db-task-list/entities/*.js"]
+}

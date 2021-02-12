@@ -1,3 +1,5 @@
+import { StatusRole } from '@/models/task';
+
 export interface ChangeTaskStatus {
   changeStatus: (params: ChangeTaskStatus.Params) => ChangeTaskStatus.Result;
 }
@@ -5,7 +7,7 @@ export interface ChangeTaskStatus {
 export namespace ChangeTaskStatus {
   export type Params = {
     id: number;
-    status: string;
+    status: StatusRole;
   };
 
   export type Result = Promise<boolean>;

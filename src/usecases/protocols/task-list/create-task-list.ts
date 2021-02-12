@@ -1,4 +1,4 @@
-import { TaskList } from '~/models/task-list';
+import { TaskListModel } from '@/models/task-list';
 
 export interface CreateTaskList {
   create: (taskList: CreateTaskList.Params) => CreateTaskList.Result;
@@ -10,5 +10,5 @@ export namespace CreateTaskList {
     due_date: Date;
   };
 
-  export type Result = Promise<TaskList>;
+  export type Result = Promise<TaskListModel>;
 }

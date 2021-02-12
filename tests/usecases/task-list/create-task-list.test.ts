@@ -1,8 +1,13 @@
 import faker from 'faker';
-import { TaskListRepository } from '~/repositories/protocols/task-list-repository';
-import { InMemoryTaskListRepository } from '~/tests/fakeRepositories/inMemory-task-list-repository';
-import { ServiceCreateTaskList } from '~/usecases/implementations/task-list/create-task-list';
-import { CreateTaskList } from '~/usecases/protocols';
+import { TaskListRepository } from '@/repositories/protocols/task-list-repository';
+import { InMemoryTaskListRepository } from '@/tests/fakeRepositories/inMemory-task-list-repository';
+import { ServiceCreateTaskList } from '@/usecases/implementations/task-list/create-task-list';
+import { CreateTaskList } from '@/usecases/protocols';
+
+type SutTypes = {
+  sut: CreateTaskList;
+  taskListRepository: TaskListRepository;
+};
 
 const makeSut = (): SutTypes => {
   const taskListRepository = new InMemoryTaskListRepository();
@@ -11,11 +16,6 @@ const makeSut = (): SutTypes => {
     sut,
     taskListRepository,
   };
-};
-
-type SutTypes = {
-  sut: CreateTaskList;
-  taskListRepository: TaskListRepository;
 };
 
 describe('Create a new TaskList', () => {

@@ -1,17 +1,16 @@
 module.exports = {
-  globals: {
-    'ts-jest': {
-      tsConfig: 'tsconfig.json',
-    },
-  },
-  moduleFileExtensions: ['ts', 'js'],
+  roots: ['<rootDir>/tests'],
+  collectCoverageFrom: ['<rootDir>/src/**/*.ts', '!<rootDir>/src/main/**'],
+  coverageDirectory: 'coverage',
+  coverageProvider: 'babel',
+  testEnvironment: 'node',
+  preset: '@shelf/jest-mongodb',
   transform: {
-    '^.+\\.(ts|tsx)$': 'ts-jest',
+    '.+\\.ts$': 'ts-jest',
+  },
+  moduleNameMapper: {
+    '@/tests/(.*)': '<rootDir>/tests/$1',
+    '@/(.*)': '<rootDir>/src/$1',
   },
   testMatch: ['<rootDir>/tests/**/*.test.(ts|js)'],
-  testEnvironment: 'node',
-  moduleNameMapper: {
-    '~/tests/(.*)': '<rootDir>/tests/$1',
-    '~/(.*)': '<rootDir>/src/$1',
-  },
 };

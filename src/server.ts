@@ -1,26 +1,11 @@
 import 'module-alias/register';
 import 'reflect-metadata';
+import '@/config/typeorm';
 
-import errorHandler from 'errorhandler';
+import app from '@/config/app';
 
-import '~/db/typeorm';
-
-import app from './app';
-
-/**
- * Error Handler. Provides full stack - remove for production
- */
-app.use(errorHandler());
-
-/**
- * Start Express server.
- */
-const server = app.listen(app.get('port'), () => {
-  console.log(
-    '  App is running at http://localhost:%d in %s mode',
-    app.get('port'),
-    app.get('env'),
-  );
+const server = app.listen(3000, () => {
+  console.log('  App is running at http://localhost:3000 in %s mode');
   console.log('  Press CTRL-C to stop\n');
 });
 

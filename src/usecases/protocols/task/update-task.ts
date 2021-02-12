@@ -1,4 +1,4 @@
-import { Task } from '~/models/task';
+import { TaskModel } from '@/models/task';
 
 export interface UpdateTask {
   update: (task: UpdateTask.Params) => UpdateTask.Result;
@@ -11,5 +11,5 @@ export namespace UpdateTask {
     duration: number;
   };
 
-  export type Result = Promise<Task>;
+  export type Result = Promise<TaskModel>;
 }

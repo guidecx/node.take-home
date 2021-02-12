@@ -5,6 +5,7 @@ ENV NODE_ENV=production
 WORKDIR /usr/src/app
 
 COPY package*.json ./
+COPY .env ./
 
 RUN npm install --silent && npm install pm2 -g
 

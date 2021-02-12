@@ -1,8 +1,13 @@
 import faker from 'faker';
-import { TaskListRepository } from '~/repositories/protocols/task-list-repository';
-import { InMemoryTaskListRepository } from '~/tests/fakeRepositories/inMemory-task-list-repository';
-import { ServiceListTaskList } from '~/usecases/implementations/task-list/list-task-list';
-import { ListTaskList } from '~/usecases/protocols';
+import { TaskListRepository } from '@/repositories/protocols/task-list-repository';
+import { InMemoryTaskListRepository } from '@/tests/fakeRepositories/inMemory-task-list-repository';
+import { ServiceListTaskList } from '@/usecases/implementations/task-list/list-task-list';
+import { ListTaskList } from '@/usecases/protocols';
+
+type SutTypes = {
+  sut: ListTaskList;
+  taskListRepository: TaskListRepository;
+};
 
 const makeSut = (): SutTypes => {
   const taskListRepository = new InMemoryTaskListRepository();
@@ -11,11 +16,6 @@ const makeSut = (): SutTypes => {
     sut,
     taskListRepository,
   };
-};
-
-type SutTypes = {
-  sut: ListTaskList;
-  taskListRepository: TaskListRepository;
 };
 
 describe('List all TaskLists', () => {
@@ -36,6 +36,10 @@ describe('List all TaskLists', () => {
 
     const taskList = await sut.list();
 
-    expect(taskList[0]).toBe(fakeTaskList);
+    expect(taskList).toBeTruthy();
+
+    if (taskList) {
+      expect(taskList[0]).toBe(fakeTaskList);
+    }
   });
 });

@@ -75,8 +75,7 @@ $ cp .env.example .env
 
 ```
 $ npm install
-$ docker-compose up
-$ npm db:setup
+$ npm run up
 
 ```
 

@@ -1,4 +1,4 @@
-import { Task } from '~/models/task';
+import { TaskModel } from '@/models/task';
 
 export interface CreateTask {
   create: (task: CreateTask.Params) => CreateTask.Result;
@@ -12,5 +12,5 @@ export namespace CreateTask {
     dependency_id?: number;
   };
 
-  export type Result = Promise<Task>;
+  export type Result = Promise<TaskModel>;
 }

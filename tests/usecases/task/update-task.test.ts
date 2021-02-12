@@ -1,11 +1,18 @@
 import faker from 'faker';
-import { TaskRepository } from '~/repositories/protocols/task-repository';
-import { TaskListRepository } from '~/repositories/protocols/task-list-repository';
-import { InMemoryTaskListRepository } from '~/tests/fakeRepositories/inMemory-task-list-repository';
-import { InMemoryTaskRepository } from '~/tests/fakeRepositories/inMemory-task-repository';
-import { ServiceUpdateTask } from '~/usecases/implementations/task/update-task';
-import { UpdateTask } from '~/usecases/protocols';
-import AppError from '~/util/errors/AppError';
+import { TaskRepository } from '@/repositories/protocols/task-repository';
+import { TaskListRepository } from '@/repositories/protocols/task-list-repository';
+import { InMemoryTaskListRepository } from '@/tests/fakeRepositories/inMemory-task-list-repository';
+import { InMemoryTaskRepository } from '@/tests/fakeRepositories/inMemory-task-repository';
+import { ServiceUpdateTask } from '@/usecases/implementations/task/update-task';
+import { UpdateTask } from '@/usecases/protocols';
+import AppError from '@/util/errors/AppError';
+import { StatusRole } from '@/models/task';
+
+type SutTypes = {
+  sut: UpdateTask;
+  taskRepository: TaskRepository;
+  taskListRepository: TaskListRepository;
+};
 
 const makeSut = (): SutTypes => {
   const taskRepository = new InMemoryTaskRepository();
@@ -16,12 +23,6 @@ const makeSut = (): SutTypes => {
     taskRepository,
     taskListRepository,
   };
-};
-
-type SutTypes = {
-  sut: UpdateTask;
-  taskRepository: TaskRepository;
-  taskListRepository: TaskListRepository;
 };
 
 describe('Update a Task', () => {
@@ -102,7 +103,7 @@ describe('Update a Task', () => {
       name: faker.vehicle.model(),
       duration: 3,
       task_list_id: 1,
-      status: 'complete',
+      status: StatusRole.complete,
       created_at: faker.date.past(),
       updated_at: faker.date.past(),
     });
@@ -153,6 +154,6 @@ describe('Update a Task', () => {
 
     const taskUpdated = await taskListRepository.findById(taskList.id);
 
-    expect(taskUpdated.forecasted_completion_date).toBe(fakeForecast);
+    expect(taskUpdated?.forecasted_completion_date).toBe(fakeForecast);
   });
 });

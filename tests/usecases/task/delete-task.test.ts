@@ -1,11 +1,18 @@
 import faker from 'faker';
-import { TaskRepository } from '~/repositories/protocols/task-repository';
-import { TaskListRepository } from '~/repositories/protocols/task-list-repository';
-import { InMemoryTaskListRepository } from '~/tests/fakeRepositories/inMemory-task-list-repository';
-import { InMemoryTaskRepository } from '~/tests/fakeRepositories/inMemory-task-repository';
-import { ServiceDeleteTask } from '~/usecases/implementations/task/delete-task';
-import { DeleteTask } from '~/usecases/protocols';
-import AppError from '~/util/errors/AppError';
+import { TaskRepository } from '@/repositories/protocols/task-repository';
+import { TaskListRepository } from '@/repositories/protocols/task-list-repository';
+import { InMemoryTaskListRepository } from '@/tests/fakeRepositories/inMemory-task-list-repository';
+import { InMemoryTaskRepository } from '@/tests/fakeRepositories/inMemory-task-repository';
+import { ServiceDeleteTask } from '@/usecases/implementations/task/delete-task';
+import { DeleteTask } from '@/usecases/protocols';
+import AppError from '@/util/errors/AppError';
+import { StatusRole } from '@/models/task';
+
+type SutTypes = {
+  sut: DeleteTask;
+  taskRepository: TaskRepository;
+  taskListRepository: TaskListRepository;
+};
 
 const makeSut = (): SutTypes => {
   const taskRepository = new InMemoryTaskRepository();
@@ -16,12 +23,6 @@ const makeSut = (): SutTypes => {
     taskRepository,
     taskListRepository,
   };
-};
-
-type SutTypes = {
-  sut: DeleteTask;
-  taskRepository: TaskRepository;
-  taskListRepository: TaskListRepository;
 };
 
 describe('Delete a Task', () => {
@@ -85,7 +86,7 @@ describe('Delete a Task', () => {
       name: faker.vehicle.model(),
       duration: 3,
       task_list_id: 1,
-      status: 'complete',
+      status: StatusRole.complete,
       created_at: faker.date.past(),
       updated_at: faker.date.past(),
     });
@@ -132,7 +133,7 @@ describe('Delete a Task', () => {
 
     const taskUpdated = await taskListRepository.findById(taskList.id);
 
-    expect(taskUpdated.forecasted_completion_date).toBe(fakeForecast);
+    expect(taskUpdated?.forecasted_completion_date).toBe(fakeForecast);
   });
 
   test('Should return appError if updateNextDependency returns false', async () => {

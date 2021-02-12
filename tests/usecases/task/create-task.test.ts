@@ -1,11 +1,17 @@
 import faker from 'faker';
-import { TaskRepository } from '~/repositories/protocols/task-repository';
-import { TaskListRepository } from '~/repositories/protocols/task-list-repository';
-import { InMemoryTaskListRepository } from '~/tests/fakeRepositories/inMemory-task-list-repository';
-import { InMemoryTaskRepository } from '~/tests/fakeRepositories/inMemory-task-repository';
-import { ServiceCreateTask } from '~/usecases/implementations/task/create-task';
-import { CreateTask } from '~/usecases/protocols';
-import AppError from '~/util/errors/AppError';
+import { TaskRepository } from '@/repositories/protocols/task-repository';
+import { TaskListRepository } from '@/repositories/protocols/task-list-repository';
+import { InMemoryTaskListRepository } from '@/tests/fakeRepositories/inMemory-task-list-repository';
+import { InMemoryTaskRepository } from '@/tests/fakeRepositories/inMemory-task-repository';
+import { ServiceCreateTask } from '@/usecases/implementations/task/create-task';
+import { CreateTask } from '@/usecases/protocols';
+import AppError from '@/util/errors/AppError';
+
+type SutTypes = {
+  sut: CreateTask;
+  taskRepository: TaskRepository;
+  taskListRepository: TaskListRepository;
+};
 
 const makeSut = (): SutTypes => {
   const taskRepository = new InMemoryTaskRepository();
@@ -16,12 +22,6 @@ const makeSut = (): SutTypes => {
     taskRepository,
     taskListRepository,
   };
-};
-
-type SutTypes = {
-  sut: CreateTask;
-  taskRepository: TaskRepository;
-  taskListRepository: TaskListRepository;
 };
 
 describe('Create a new Task', () => {

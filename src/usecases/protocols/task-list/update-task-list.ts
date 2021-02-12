@@ -1,4 +1,4 @@
-import { TaskList } from '~/models/task-list';
+import { TaskListModel } from '@/models/task-list';
 
 export interface UpdateTaskList {
   update: (taskList: UpdateTaskList.Params) => UpdateTaskList.Result;
@@ -11,5 +11,5 @@ export namespace UpdateTaskList {
     due_date: Date;
   };
 
-  export type Result = Promise<TaskList>;
+  export type Result = Promise<TaskListModel>;
 }

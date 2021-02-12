@@ -1,7 +1,7 @@
-import { TaskRepository } from '~/repositories/protocols/task-repository';
-import { TaskListRepository } from '~/repositories/protocols/task-list-repository';
-import { CreateTask } from '~/usecases/protocols';
-import AppError from '~/util/errors/AppError';
+import { TaskRepository } from '@/repositories/protocols/task-repository';
+import { TaskListRepository } from '@/repositories/protocols/task-list-repository';
+import { CreateTask } from '@/usecases/protocols';
+import AppError from '@/util/errors/AppError';
 
 export class ServiceCreateTask implements CreateTask {
   constructor(

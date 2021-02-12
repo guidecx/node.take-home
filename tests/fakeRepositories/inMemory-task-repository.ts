@@ -1,28 +1,29 @@
 import { addDays } from 'date-fns';
-import { Task } from '~/models/task';
-import { TaskRepository } from '~/repositories/protocols/task-repository';
-import { CreateTask } from '~/usecases/protocols';
+import { StatusRole, TaskModel } from '@/models/task';
+import { TaskRepository } from '@/repositories/protocols/task-repository';
+import { CreateTask } from '@/usecases/protocols';
 
 export class InMemoryTaskRepository implements TaskRepository {
-  private task: Task[];
+  private task: TaskModel[];
 
   constructor() {
     this.task = [];
   }
 
-  public async list(): Promise<Task[]> {
+  public async list(): Promise<TaskModel[] | undefined> {
     if (this.task.length > 0) {
       return this.task;
     }
     return undefined;
   }
-  public async create(data: CreateTask.Params): Promise<Task> {
-    const newItem: Task = {
+
+  public async create(data: CreateTask.Params): Promise<TaskModel> {
+    const newItem: TaskModel = {
       id: this.task.length + 1,
       name: data.name,
-      status: 'not_started',
+      status: StatusRole.not_started,
       duration: data.duration,
-      started_at: null,
+      started_at: undefined,
       due_date: new Date(),
       dependency_id: data.dependency_id,
       task_list_id: data.task_list_id,
@@ -35,14 +36,14 @@ export class InMemoryTaskRepository implements TaskRepository {
     return newItem;
   }
 
-  public async findById(id: number): Promise<Task | undefined> {
-    const findTask = this.task.find((task) => task.id === id);
+  public async findById(id: number): Promise<TaskModel | undefined> {
+    const findTask = this.task.find(task => task.id === id);
 
     return findTask;
   }
 
-  public async save(data: Task): Promise<Task> {
-    const findIndex = this.task.findIndex((task) => task.id === data.id);
+  public async save(data: TaskModel): Promise<TaskModel> {
+    const findIndex = this.task.findIndex(task => task.id === data.id);
 
     this.task[findIndex] = data;
 
@@ -50,7 +51,7 @@ export class InMemoryTaskRepository implements TaskRepository {
   }
 
   public async delete(id: number): Promise<boolean> {
-    const findIndex = this.task.findIndex((task) => task.id === id);
+    const findIndex = this.task.findIndex(task => task.id === id);
 
     if (findIndex > -1) {
       this.task.splice(findIndex, 1);
@@ -63,6 +64,7 @@ export class InMemoryTaskRepository implements TaskRepository {
   public async sumNewForecast(id: number): Promise<Date | boolean> {
     let duration = 0;
     let dateStarted = null;
+    // eslint-disable-next-line no-plusplus
     for (let i = 0; i < this.task.length; i++) {
       if (
         this.task[i].task_list_id === id &&
@@ -88,12 +90,12 @@ export class InMemoryTaskRepository implements TaskRepository {
   }
 
   public async updateNextDependency(
-    currentDependency: number,
+    currentDependency: number | null | undefined,
     currentId: number,
   ): Promise<boolean> {
-    const findTaskIndex = this.task.findIndex((task) => task.id === currentId);
+    const findTaskIndex = this.task.findIndex(task => task.id === currentId);
     const taskDependsCurrentIndex = this.task.findIndex(
-      (task) => task.dependency_id === currentId,
+      task => task.dependency_id === currentId,
     );
 
     this.task[findTaskIndex].dependency_id = null;
@@ -101,19 +103,20 @@ export class InMemoryTaskRepository implements TaskRepository {
     if (taskDependsCurrentIndex > -1) {
       this.task[taskDependsCurrentIndex].dependency_id = currentDependency;
 
-      if (this.task[findTaskIndex].status === 'in_progress') {
-        this.task[taskDependsCurrentIndex].status = 'in_progress';
+      if (this.task[findTaskIndex].status === StatusRole.in_progress) {
+        this.task[taskDependsCurrentIndex].status = StatusRole.in_progress;
         this.task[taskDependsCurrentIndex].started_at = new Date();
       }
     }
 
     return true;
   }
+
   public async findByDependencyId(
     dependencyId: number,
-  ): Promise<Task | undefined> {
+  ): Promise<TaskModel | undefined> {
     const findTask = this.task.find(
-      (task) => task.dependency_id === dependencyId,
+      task => task.dependency_id === dependencyId,
     );
 
     return findTask;

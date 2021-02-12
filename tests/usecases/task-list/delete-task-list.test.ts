@@ -1,8 +1,13 @@
 import faker from 'faker';
-import { TaskListRepository } from '~/repositories/protocols/task-list-repository';
-import { InMemoryTaskListRepository } from '~/tests/fakeRepositories/inMemory-task-list-repository';
-import { ServiceDeleteTaskList } from '~/usecases/implementations/task-list/delete-task-list';
-import { DeleteTaskList } from '~/usecases/protocols';
+import { TaskListRepository } from '@/repositories/protocols/task-list-repository';
+import { InMemoryTaskListRepository } from '@/tests/fakeRepositories/inMemory-task-list-repository';
+import { ServiceDeleteTaskList } from '@/usecases/implementations/task-list/delete-task-list';
+import { DeleteTaskList } from '@/usecases/protocols';
+
+type SutTypes = {
+  sut: DeleteTaskList;
+  taskListRepository: TaskListRepository;
+};
 
 const makeSut = (): SutTypes => {
   const taskListRepository = new InMemoryTaskListRepository();
@@ -11,11 +16,6 @@ const makeSut = (): SutTypes => {
     sut,
     taskListRepository,
   };
-};
-
-type SutTypes = {
-  sut: DeleteTaskList;
-  taskListRepository: TaskListRepository;
 };
 
 describe('Delete a TaskList', () => {
